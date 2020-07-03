@@ -10,13 +10,22 @@ function App() {
   useEffect(() => {
     api.get('/repositories').then(response => setRepositories(response.data));
   });
-
+  
   async function handleAddRepository() {
-    // TODO
+    const response = await api.post('/repositories', {
+      title: `Teste ${Date.now()}`,
+      url: 'http://github.com/teste',
+      techs: ['ReactJS, React Native, Node.js']
+    });
+
+    const repository = response.data;
+
+    setRepositories([...repositories, repository]);
   }
 
   async function handleRemoveRepository(id) {
-    // TODO
+    api.delete(`/repositories/${id}`);
+    setRepositories([...repositories]);
   }
 
   return (
